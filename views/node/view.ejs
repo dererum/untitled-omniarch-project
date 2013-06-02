@@ -1,0 +1,26 @@
+<h2><%= name %></h2>
+
+<a class="push-button btn btn-large" href="#">Push me</a>
+
+<script>
+
+var device_name = '<%= name %>';
+
+$(document).on('ready', function() {
+    var socket = io.connect('/');
+    console.log(socket);
+
+    socket.on('news', function(data) {
+        $('.notice').html(data.message);
+    });
+
+    $('.push-button').on('click', function(event) {
+        event.preventDefault();
+        socket.emit('button-push', {name: device_name});
+    });
+
+    socket.on('button-push-response', function(data) {
+        $('.notice').html(data.message);
+    });
+});
+</script>

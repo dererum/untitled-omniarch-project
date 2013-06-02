@@ -1,8 +1,17 @@
+global.OurApp = {}
+
 express = require('express')
 routes = require('./routes')
 user = require('./routes/user')
+node = require('./routes/node')
 http = require('http')
 path = require('path')
+
+sys = require('sys')
+exec = require('child_process').exec
+
+WemoProtocol = require('./lib/wemo_protocol').WemoProtocol
+
 expressLayouts = require('express-ejs-layouts')
 
 app = express()
@@ -25,6 +34,20 @@ if 'development' == app.get('env')
 
 app.get('/', routes.index)
 app.get('/users', user.list)
+app.get('/node/:name', node.view)
 
-http.createServer(app).listen app.get('port'), () ->
+server = http.createServer(app)
+server.listen app.get('port'), () ->
   console.log('Express server listening on port ' + app.get('port'))
+
+io = require('socket.io').listen(server)
+
+# This is where we have discover() or something
+nodes = OurApp.nodes = {}
+require('./lib/wemo_device_registry')
+
+io.sockets.on 'connection', (socket) ->
+  socket.emit 'news', {message: 'Awaiting your command, master'}
+  socket.on 'button-push', (data) ->
+    nodes[data.name].perform("toggle", (response) ->
+      socket.emit 'button-push-response', {message: response})
