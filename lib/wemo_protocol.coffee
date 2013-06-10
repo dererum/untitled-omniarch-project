@@ -1,5 +1,5 @@
-exec = require('child_process').exec
 Protocol = require('./protocol').Protocol
+Command = require('./command').Command
 
 class WemoProtocol extends Protocol
 
@@ -11,8 +11,8 @@ class WemoProtocol extends Protocol
     @_actions["toggle"] = @toggle_action
 
   _execute: (action, callback) ->
-    exec "wemo switch \"#{@identifier}\" #{action}", (error, stdout, stderr) ->
-      callback("Toggled!")
+    command = new Command('wemo')
+    command.run("switch", @identifier, action, callback)
 
   on_action: (callback) =>
     @_execute("on", callback)
@@ -21,7 +21,6 @@ class WemoProtocol extends Protocol
     @_execute("off", callback)
 
   toggle_action: (callback) =>
-    console.log(@)
     @_execute("toggle", callback)
 
 exports.WemoProtocol = WemoProtocol
