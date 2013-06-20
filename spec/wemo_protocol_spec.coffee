@@ -1,17 +1,19 @@
 require './spec_helper'
 
 WemoProtocol = require('../lib/wemo_protocol').WemoProtocol
+Command = require('../lib/command').Command
 
 describe 'WemoProtocol', () ->
-  describe '#on', ->
-    it "generates the right command", ->
-      protocol = new WemoProtocol('office')
-      protocol.
-      protocol.perform('on')
 
-  describe '#on', ->
-    it "do something", ->
-      new WemoProtocol()
+  @shouldGenerateRightCommand = (command) ->
+    describe "##{command}", ->
+      it "generates the correct #{command} command", ->
+        protocol = new WemoProtocol('office')
+        mock = sinon.mock(protocol.command)
+        mock.expects("run").withArgs("switch", "office", command)
+        protocol.perform(command)
+        mock.verify()
 
-
-
+  @shouldGenerateRightCommand("on")
+  @shouldGenerateRightCommand("off")
+  @shouldGenerateRightCommand("toggle")

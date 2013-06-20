@@ -13,7 +13,6 @@ class Protocol
     @_actions[name] = action
 
   perform: (action, callback) ->
-    console.log(action)
     @_actions[action](callback)
 
 

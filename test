@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+HERE=$(dirname "$0")
+mocha --compilers coffee:coffee-script ${HERE}/spec/*

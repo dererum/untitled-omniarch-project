@@ -6,13 +6,13 @@ class WemoProtocol extends Protocol
   constructor: (identifier) ->
     super()
     @identifier = identifier
+    @command = new Command('wemo')
     @_actions["on"] = @on_action
     @_actions["off"] = @off_action
     @_actions["toggle"] = @toggle_action
 
   _execute: (action, callback) ->
-    command = new Command('wemo')
-    command.run("switch", @identifier, action, callback)
+    @command.run("switch", @identifier, action, callback)
 
   on_action: (callback) =>
     @_execute("on", callback)
