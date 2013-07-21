@@ -42,9 +42,8 @@ server.listen app.get('port'), () ->
 
 io = require('socket.io').listen(server)
 
-# This is where we have discover() or something
-nodes = OurApp.nodes = {}
-require('./lib/wemo_device_registry')
+DeviceRegistry.load()
+DeviceRegistry.discover()
 
 io.sockets.on 'connection', (socket) ->
   socket.emit 'news', {message: 'Awaiting your command, master'}
