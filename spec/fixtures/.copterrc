@@ -1,0 +1,9 @@
+{
+  "devices": [{
+    "name": "foo",
+    "protocols": [{
+      "name": "BarBaz"
+    }],
+    "properties": {}
+  }]
+}
