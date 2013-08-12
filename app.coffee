@@ -1,3 +1,4 @@
+global._ = require('underscore')
 global.OurApp = {}
 
 express = require('express')
@@ -9,8 +10,6 @@ path = require('path')
 
 sys = require('sys')
 exec = require('child_process').exec
-
-WemoProtocol = require('./lib/wemo_protocol').WemoProtocol
 
 expressLayouts = require('express-ejs-layouts')
 
@@ -42,8 +41,10 @@ server.listen app.get('port'), () ->
 
 io = require('socket.io').listen(server)
 
-DeviceRegistry.load()
-DeviceRegistry.discover()
+DeviceRegistry= require('./lib/device_registry').DeviceRegistry
+device_registry = new DeviceRegistry()
+device_registry.load()
+device_registry.discover()
 
 io.sockets.on 'connection', (socket) ->
   socket.emit 'news', {message: 'Awaiting your command, master'}

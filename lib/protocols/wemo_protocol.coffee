@@ -1,7 +1,14 @@
-Protocol = require('./protocol').Protocol
-Command = require('./command').Command
+Protocol = require('../protocol').Protocol
+Command = require('../command').Command
 
 class WemoProtocol extends Protocol
+
+  @name = "WeMo"
+
+  @discover: () =>
+    new Command('wemo').run("list", (error, stdout, stderr) ->
+      console.log(stdout)
+    )
 
   constructor: (identifier) ->
     super()
@@ -23,4 +30,5 @@ class WemoProtocol extends Protocol
   toggle_action: (callback) =>
     @_execute("toggle", callback)
 
-exports.WemoProtocol = WemoProtocol
+
+exports.Protocol = WemoProtocol

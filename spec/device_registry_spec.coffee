@@ -3,6 +3,7 @@ fs = require 'fs'
 path = require 'path'
 
 DeviceRegistry = require('../lib/device_registry').DeviceRegistry
+Device = require("../lib/device").Device
 
 describe 'DeviceRegistry', ->
 

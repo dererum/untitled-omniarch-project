@@ -11,6 +11,7 @@
     "express-ejs-layouts": "*",
     "socket.io": "~0.9.14",
     "chai": "~1.6.1",
-    "sinon": "*"
+    "sinon": "*",
+    "underscore": "~1.5.0"
   }
 }

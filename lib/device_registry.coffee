@@ -5,6 +5,7 @@
 fs = require 'fs'
 path = require 'path'
 Device = require("../lib/device").Device
+Protocol = require("../lib/protocol").Protocol
 
 HOMEDIR = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE
 
@@ -12,24 +13,16 @@ class DeviceRegistry
   DEFAULT_CONFIG_FILE=path.join(HOMEDIR, ".copterrc")
 
   constructor: (config_file) ->
+    @config = {}
     @config_file = config_file or DEFAULT_CONFIG_FILE
     @devices = {}
 
   load: () ->
     if not fs.existsSync(@config_file)
       @_initializeConfig()
-      #try
-      #  data = fs.readFileSync(@config_file)
-      #  @config = JSON.parse(data)
-      #  @_loadDevices()
-      #catch IOError
-      #  console.log("Unable to read config file")
-      #  process.exit(1)
-      data = fs.readFileSync(@config_file)
-      @config = JSON.parse(data)
-      console.log(@config)
-      console.log(data.toString())
-      @_loadDevices()
+    data = fs.readFileSync(@config_file)
+    @config = JSON.parse(data)
+    @_loadDevices()
 
   addDevice: (device) ->
     if @devices[device.name]
@@ -38,6 +31,11 @@ class DeviceRegistry
 
   get: (name) ->
     @devices[name]
+
+  discover: () ->
+    _.each(Protocol.get_protocols(), (proto)->
+        proto.discover()
+    )
 
   ############################################################################
   # private
