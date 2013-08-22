@@ -1,13 +1,18 @@
 Protocol = require('../protocol').Protocol
 Command = require('../command').Command
 
+
 class WemoProtocol extends Protocol
 
   @name = "WeMo"
 
   @discover: () =>
     new Command('wemo').run("list", (error, stdout, stderr) ->
-      console.log(stdout)
+      _.each(stdout.split("\n"), (line) ->
+        return if not ":" in line
+        name = _.str.trim(line.split(":")[1])
+        ControlCopter.Events.instance().newdevice(new WemoProtocol(name)) if name
+      )
     )
 
   constructor: (identifier) ->

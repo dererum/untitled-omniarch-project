@@ -12,6 +12,7 @@
     "socket.io": "~0.9.14",
     "chai": "~1.6.1",
     "sinon": "*",
-    "underscore": "~1.5.0"
+    "underscore": "~1.5.0",
+    "underscore.string": "~2.3.0"
   }
 }

@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
 
 HERE=$(dirname "$0")
-mocha --compilers coffee:coffee-script --debug-brk ${HERE}/spec/*
+DEBUGARG=
+if [ -n "$1" ]; then
+    DEBUGARG="--debug-brk"
+fi
+
+mocha --compilers coffee:coffee-script $DEBUGARG ${HERE}/spec/*

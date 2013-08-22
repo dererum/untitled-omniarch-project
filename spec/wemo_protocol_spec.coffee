@@ -1,6 +1,6 @@
 require './spec_helper'
 
-WemoProtocol = require('../lib/wemo_protocol').WemoProtocol
+WemoProtocol = require('../lib/protocols/wemo_protocol').Protocol
 Command = require('../lib/command').Command
 
 describe 'WemoProtocol', () ->

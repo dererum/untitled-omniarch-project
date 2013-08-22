@@ -3,3 +3,9 @@
     <li><a href='/node/<%= node %>'><%= nodes[node].identifier %></a></li>
 <% } %>
 </ul>
+
+<script>
+$(document).on('ready', function() {
+  var socket = io.connect('/');
+}
+</script>
